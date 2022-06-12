@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: software
   become: yes
   tasks:
    - name: install apache2 
