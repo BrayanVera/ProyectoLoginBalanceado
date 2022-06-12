@@ -14,9 +14,7 @@
     args:
       chdir: /usr/src/
       creates: /usr/local/bin/composer
-      group: root
       mode: '0755'
-      owner: root
       warn: false
     become: yes
 ...
