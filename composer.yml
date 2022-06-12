@@ -14,7 +14,8 @@
     args:
       chdir: /usr/src/
       creates: /usr/local/bin/composer
-      mode: '0755'
       warn: false
     become: yes
+  - name: permiso
+    shell: sudo chmod 755 /usr/local/bin/composer
 ...
