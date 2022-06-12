@@ -2,19 +2,17 @@
 - hosts: all
   become: yes
   tasks:
-  - name: "Read Checksum"
-    shell: curl https://getcomposer.org/download/latest-stable/composer.phar.sha256
-    register: composer_checksum
-  
-  - name: "Download PHAR file"
-    ansible.builtin.get_url:
-      url: https://getcomposer.org/download/latest-stable/composer.phar
-      dest: /usr/local/bin/composer
-      force: yes
-      checksum: "sha256:{{ composer_checksum.stdout }}"
-  
-  - name: "Read composer version"
-    shell: composer -V
-    register: composer_version
+    - name: Composer | Install Composer latest-stable
+      get_url:
+        url: '{{ composer_url }}'
+        checksum: 'sha256:{{ composer_url }}.sha256sum'
+        dest: /usr/local/bin/composer.phar
+        mode: 0755
+
+    - name: Composer | Symlink composer.phar
+      file:
+        src: composer.phar
+        dest: /usr/local/bin/composer
+        state: link
 
 ...
