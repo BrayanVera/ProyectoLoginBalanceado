@@ -2,28 +2,21 @@
 - hosts: all
   become: yes
   tasks:
-  - name: Validate Composer checksum
-    get_url:
-      checksum: "sha384:795f976fe0ebd8b75f26a6dd68f78fd3453ce79f32ecb33e7fd087d39bfeb978342fb73ac986cd4f54edd0dc902601dc"
-      dest: /usr/src/
-      url: https://getcomposer.org/installer
-    become: yes
+  - name: "Read Checksum"
+    shell: curl https://getcomposer.org/download/latest-stable/composer.phar.sha256
+    register: composer_checksum
   
-  - name: Download and install Composer
-    shell: curl -sS https://getcomposer.org/installer | php
-    args:
-      chdir: /usr/src/
-      creates: /usr/local/bin/composer
-      warn: false
-    become: yes
-  
-  - name: Add Composer to global path
-    copy: 
+  - name: "Download PHAR file"
+    ansible.builtin.get_url:
+      url: https://getcomposer.org/download/latest-stable/composer.phar
       dest: /usr/local/bin/composer
-      group: root
-      mode: '0755'
-      owner: root
-      src: /usr/src/composer.phar
-      remote_src: yes
-    become: yes
+      force: yes
+      checksum: "sha256:{{ composer_checksum.stdout }}"
+  
+  - name: "Read composer version"
+    shell: composer -V
+    register: composer_version
+  
+  - debug:
+      var: composer_version.stdout
 ...
