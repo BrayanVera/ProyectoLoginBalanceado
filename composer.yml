@@ -23,7 +23,7 @@
       group: root
       mode: '0755'
       owner: root
-      src: /usr/src/composer.phar
+      src: /usr/src/composer
       remote_src: yes
     become: yes
 ...
