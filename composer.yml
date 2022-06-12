@@ -16,7 +16,5 @@
   - name: "Read composer version"
     shell: composer -V
     register: composer_version
-  
-  - debug:
-      var: composer_version.stdout
+
 ...
