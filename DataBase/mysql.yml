@@ -2,7 +2,7 @@
 - hosts: all
   become: yes
   vars:   
-    mysql_root_password: password  
+    mysql_root_password: toor  
   tasks:
    - name: install mysql     
      apt: name=mysql update_cache=yes cache_valid_time=3600 state=present
